@@ -1,0 +1,23 @@
+{
+  "Info Tools": [
+    { "name": "System Info",        "script": "custom-systeminfo.ps1",      "risky": false },
+    { "name": "Show WiFi Passwords","script": "custom-wifi-passwords.ps1",  "risky": false },
+    { "name": "List Installed Apps","script": "custom-list-programs.ps1",   "risky": false },
+    { "name": "Show Product Key",   "script": "custom-product-key.ps1",     "risky": false }
+  ],
+  "Quick Fixes": [
+    { "name": "Clean Temp Files",   "script": "custom-clean-temp.ps1",      "risky": false },
+    { "name": "Flush DNS",          "script": "custom-flush-dns.ps1",       "risky": false },
+    { "name": "Reset Network",      "script": "custom-reset-network.ps1",   "risky": false },
+    { "name": "Restart Explorer",   "script": "custom-restart-explorer.ps1","risky": false },
+    { "name": "Fix Winget",         "script": "custom-fix-winget.ps1",      "risky": false }
+  ],
+  "Mega Batches (HIGH RISK)": [
+    { "name": "Permanent Debloater", "script": "custom-debloater.ps1",     "risky": true,  "desc": "Permanently removes Win11 bloat apps for ALL users" },
+    { "name": "EXM Premium Tweaks",  "script": "custom-exm-tweaks.ps1",    "risky": true,  "desc": "Disables UAC, changes BCD, kills CPU power mgmt" },
+    { "name": "Godmode (Win10/11)",  "script": "custom-godmode.ps1",       "risky": true,  "desc": "Removes Edge, OneDrive, Defender, disables 100+ services" },
+    { "name": "Godmode Merged 2026", "script": "custom-godmode-merged.ps1","risky": true,  "desc": "Latest merged godmode build with all tweaks combined" },
+    { "name": "Nuclear Process Killer","script": "custom-process-killer.ps1","risky": true, "desc": "Disables WinUpdate, Defender, kills 100+ processes" },
+    { "name": "Auto BIOS Mods",      "script": "custom-auto-bios.ps1",     "risky": true,  "desc": "Needs SCEWIN_64.exe. Modifies BIOS directly. CAN BRICK." }
+  ]
+}

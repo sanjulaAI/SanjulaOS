@@ -1,0 +1,51 @@
+{
+  "Privacy": [
+    { "id": "telemetry",         "name": "Disable Telemetry",      "desc": "Stops Windows from sending diagnostic & usage data to Microsoft. Stops the DiagTrack service." },
+    { "id": "advertising-id",    "name": "Disable Advertising ID", "desc": "Stops apps from using your advertising ID to track you for personalized ads." },
+    { "id": "activity-history",  "name": "Disable Activity History", "desc": "Stops Windows recording your activity timeline (apps opened, files used)." },
+    { "id": "location-tracking", "name": "Disable Location Tracking", "desc": "Turns off Windows location services system-wide." },
+    { "id": "feedback-requests", "name": "Disable Feedback Requests", "desc": "Stops Windows from asking you for feedback periodically." }
+  ],
+  "UI / Appearance": [
+    { "id": "dark-mode",                       "name": "Enable Dark Mode",                   "desc": "Sets Apps and System to dark theme." },
+    { "id": "show-extensions",                 "name": "Show File Extensions",               "desc": "Always show .txt .exe .png etc on filenames in Explorer." },
+    { "id": "show-hidden",                     "name": "Show Hidden Files",                  "desc": "Reveal files marked as hidden in Explorer." },
+    { "id": "classic-context-menu",            "name": "Classic Right-Click Menu (Win11)",   "desc": "Removes Win11's 'Show more options' submenu - all options visible like Win10." },
+    { "id": "taskbar-align-left",              "name": "Align Taskbar Left",                 "desc": "Move Start button and taskbar icons to left side (Win10 style)." },
+    { "id": "transparency",                    "name": "Disable Transparency",               "desc": "Turn off Acrylic/Mica blur effects. Slight performance gain on low-end PCs." },
+    { "id": "taskbar-animations",              "name": "Disable Taskbar Animations",         "desc": "Removes smooth animations on taskbar. Snappier feel on slow hardware." }
+  ],
+  "Search / Cortana": [
+    { "id": "cortana",     "name": "Disable Cortana",                 "desc": "Disables Cortana voice assistant completely via group policy." },
+    { "id": "bing-search", "name": "Disable Bing Search in Start",    "desc": "Stops Start Menu from sending your searches to Bing." },
+    { "id": "web-search",  "name": "Disable Web Search Suggestions",  "desc": "Removes web suggestions from search results." }
+  ],
+  "Performance": [
+    { "id": "visual-effects-best-performance", "name": "Visual Effects: Best Performance", "desc": "Disables animations, shadows, smoothing. Big speedup on slow PCs (uglier look)." },
+    { "id": "mouse-acceleration",              "name": "Disable Mouse Acceleration",       "desc": "Raw 1:1 mouse movement. Essential for FPS gaming. Standard everyday use is fine without it." },
+    { "id": "game-bar",                        "name": "Disable Xbox Game Bar",            "desc": "Stops Win+G overlay. Reduces background processes. May break some games' Game Mode." },
+    { "id": "gpu-hw-scheduling",               "name": "GPU Hardware Scheduling On",       "desc": "Reduces input latency on supported GPUs. Requires reboot. May cause instability on some drivers." },
+    { "id": "fast-startup",                    "name": "Disable Fast Startup",             "desc": "Forces a real cold boot every shutdown. Slower shutdown/boot BUT fixes weird driver/network issues." }
+  ],
+  "Updates": [
+    { "id": "auto-restart-updates", "name": "Block Update Auto-Restart", "desc": "Windows won't reboot for updates while you're logged in. Reduces interruptions." }
+  ],
+  "Explorer": [
+    { "id": "explorer-launch-this-pc", "name": "Explorer: Open to This PC", "desc": "File Explorer opens to This PC instead of Quick Access by default." },
+    { "id": "explorer-no-recent",      "name": "Hide Recent Files",        "desc": "Remove the Recent / Frequent sections from Quick Access for privacy." }
+  ],
+  "Network": [
+    { "id": "network-discovery", "name": "Enable Network Discovery", "desc": "Lets your PC see other devices on the LAN (file shares, printers etc)." },
+    { "id": "ipv6",              "name": "Disable IPv6",             "desc": "Some networks/apps have IPv6 issues - disabling forces IPv4. Reboot needed." }
+  ],
+  "Apps": [
+    { "id": "edge-startup-boost", "name": "Disable Edge Startup Boost", "desc": "Stops Edge from preloading in background at boot." }
+  ],
+  "Power": [
+    { "id": "ultimate-performance", "name": "Add Ultimate Performance Plan", "desc": "Adds the hidden 'Ultimate Performance' power plan (best for desktops, ignores power saving)." },
+    { "id": "hibernate",            "name": "Disable Hibernate",             "desc": "Removes hiberfil.sys (can free 5-20GB on C:). Disables Fast Startup too." }
+  ],
+  "Safety": [
+    { "id": "sticky-keys", "name": "Disable Sticky Keys Popup", "desc": "Stops the annoying popup when you press Shift 5 times." }
+  ]
+}
