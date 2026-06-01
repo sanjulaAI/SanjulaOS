@@ -1,4 +1,4 @@
-# SanjulaOS v1.0 - JARVIS Edition
+# SanjulaOS v1.1 - JARVIS Edition (Full Animation)
 
 $global:RepoBase = "https://raw.githubusercontent.com/sanjulaAI/SanjulaOS/main"
 
@@ -12,7 +12,7 @@ Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName PresentationCore
 Add-Type -AssemblyName WindowsBase
 
-# Load the tweak engine once
+# Load tweak engine
 $tweakEngineCode = Invoke-RestMethod -Uri "$global:RepoBase/scripts/tweak-engine.ps1" -UseBasicParsing
 Invoke-Expression $tweakEngineCode
 
@@ -31,7 +31,6 @@ function Get-RemoteJson {
     try { return Invoke-RestMethod -Uri "$global:RepoBase/$Path" -UseBasicParsing } catch { return $null }
 }
 
-# Time-based greeting
 function Get-Greeting {
     $h = (Get-Date).Hour
     if ($h -lt 12) { return "Good Morning, Master" }
@@ -43,7 +42,7 @@ function Get-Greeting {
 $xamlString = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SanjulaOS" Height="760" Width="1180"
+        Title="SanjulaOS" Height="780" Width="1200"
         WindowStartupLocation="CenterScreen"
         Background="Black">
     <Window.Resources>
@@ -74,6 +73,43 @@ $xamlString = @'
             <GradientStop Color="#1A1A1A" Offset="1"/>
         </LinearGradientBrush>
 
+        <!-- ANIMATION 1: Pulsing cyan glow -->
+        <Storyboard x:Key="PulseGlow" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.3" To="1.0" Duration="0:0:2" AutoReverse="True"/>
+        </Storyboard>
+
+        <!-- ANIMATION 2: Scanning line sweep -->
+        <Storyboard x:Key="ScanSweep" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" From="-200" To="1200" Duration="0:0:4"/>
+        </Storyboard>
+
+        <!-- ANIMATION 3: Hexagon rotation -->
+        <Storyboard x:Key="HexRotate" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:20"/>
+        </Storyboard>
+
+        <!-- ANIMATION 4: Tab border breathing pulse -->
+        <Storyboard x:Key="TabPulse" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1.0" Duration="0:0:1.5" AutoReverse="True"/>
+        </Storyboard>
+
+        <!-- ANIMATION 5: Drifting particle -->
+        <Storyboard x:Key="ParticleDrift1" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="600" To="-50" Duration="0:0:15"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0.8" Duration="0:0:2"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.8" To="0" BeginTime="0:0:13" Duration="0:0:2"/>
+        </Storyboard>
+        <Storyboard x:Key="ParticleDrift2" RepeatBehavior="Forever" BeginTime="0:0:5">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="600" To="-50" Duration="0:0:18"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0.6" Duration="0:0:2"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.6" To="0" BeginTime="0:0:16" Duration="0:0:2"/>
+        </Storyboard>
+        <Storyboard x:Key="ParticleDrift3" RepeatBehavior="Forever" BeginTime="0:0:9">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)" From="600" To="-50" Duration="0:0:22"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0.7" Duration="0:0:2"/>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.7" To="0" BeginTime="0:0:20" Duration="0:0:2"/>
+        </Storyboard>
+
         <Style x:Key="ChromeBtn" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource ChromeButton}"/>
             <Setter Property="Foreground" Value="#E8E8E8"/>
@@ -99,7 +135,6 @@ $xamlString = @'
             </Setter>
         </Style>
 
-        <!-- Small Apply/Revert button -->
         <Style x:Key="TweakActionBtn" TargetType="Button">
             <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="28"/>
@@ -129,7 +164,6 @@ $xamlString = @'
             </Setter>
         </Style>
 
-        <!-- Brick for tools tab -->
         <Style x:Key="BrickBtn" TargetType="Button">
             <Setter Property="Width" Value="155"/>
             <Setter Property="Height" Value="75"/>
@@ -145,9 +179,6 @@ $xamlString = @'
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Name="OB" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
-                            <Border.Effect>
-                                <DropShadowEffect Color="#00D9FF" BlurRadius="0" ShadowDepth="0" Opacity="0"/>
-                            </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.TextAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -162,7 +193,6 @@ $xamlString = @'
             </Setter>
         </Style>
 
-        <!-- Risky brick - red glow -->
         <Style x:Key="RiskyBrickBtn" TargetType="Button" BasedOn="{StaticResource BrickBtn}">
             <Setter Property="Background" Value="{StaticResource RiskyBrickGradient}"/>
             <Setter Property="BorderBrush" Value="#883333"/>
@@ -190,154 +220,222 @@ $xamlString = @'
             <ImageBrush ImageSource="https://raw.githubusercontent.com/sanjulaAI/SanjulaOS/main/SILVER_SURFER.png" Stretch="UniformToFill"/>
         </Grid.Background>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="140"/>
-        </Grid.RowDefinitions>
+        <!-- ANIMATED PARTICLES (3 cyan dots drifting up) -->
+        <Canvas Panel.ZIndex="0" IsHitTestVisible="False">
+            <Ellipse Width="4" Height="4" Fill="#00D9FF" Opacity="0" Canvas.Left="150">
+                <Ellipse.RenderTransform><TranslateTransform/></Ellipse.RenderTransform>
+                <Ellipse.Effect><DropShadowEffect Color="#00D9FF" BlurRadius="10" ShadowDepth="0"/></Ellipse.Effect>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource ParticleDrift1}"/>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+            <Ellipse Width="3" Height="3" Fill="#60CDFF" Opacity="0" Canvas.Left="400">
+                <Ellipse.RenderTransform><TranslateTransform/></Ellipse.RenderTransform>
+                <Ellipse.Effect><DropShadowEffect Color="#00D9FF" BlurRadius="8" ShadowDepth="0"/></Ellipse.Effect>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource ParticleDrift2}"/>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+            <Ellipse Width="5" Height="5" Fill="#00D9FF" Opacity="0" Canvas.Left="80">
+                <Ellipse.RenderTransform><TranslateTransform/></Ellipse.RenderTransform>
+                <Ellipse.Effect><DropShadowEffect Color="#00D9FF" BlurRadius="12" ShadowDepth="0"/></Ellipse.Effect>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource ParticleDrift3}"/>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+        </Canvas>
 
-        <!-- Header -->
-        <Grid Grid.Row="0" Margin="20,15,20,5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Vertical">
-                <TextBlock Text="SANJULA.OS" FontSize="30" FontWeight="Light" Foreground="{StaticResource ChromeBrush}" Margin="0,0,0,-4">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="#00D9FF" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-                <TextBlock Name="GreetingText" Text="Initializing..." FontSize="12" Foreground="#00D9FF" Margin="3,0,0,0" FontStyle="Italic">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="#00D9FF" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right">
-                <TextBlock Name="ClockText" FontSize="28" FontWeight="Light" Foreground="{StaticResource ChromeBrush}" TextAlignment="Right" FontFamily="Segoe UI Light">
-                    <TextBlock.Effect>
-                        <DropShadowEffect Color="White" BlurRadius="20" ShadowDepth="0" Opacity="0.5"/>
-                    </TextBlock.Effect>
-                </TextBlock>
-                <TextBlock Name="DateText" FontSize="11" Foreground="#999999" TextAlignment="Right" Margin="0,2,2,0"/>
-            </StackPanel>
-        </Grid>
+        <Grid Panel.ZIndex="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="140"/>
+            </Grid.RowDefinitions>
 
-        <!-- Animated accent line -->
-        <Rectangle Grid.Row="1" Height="1" Margin="20,0,20,5" Fill="{StaticResource JarvisAccent}">
-            <Rectangle.Effect>
-                <DropShadowEffect Color="#00D9FF" BlurRadius="8" ShadowDepth="0" Opacity="0.7"/>
-            </Rectangle.Effect>
-        </Rectangle>
+            <!-- HEADER -->
+            <Grid Grid.Row="0" Margin="20,15,20,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <Border Grid.Row="2" Margin="15,5,15,5" CornerRadius="8" HorizontalAlignment="Left" Width="600">
-            <Border.Background><SolidColorBrush Color="#000000" Opacity="0.6"/></Border.Background>
-            <Border.BorderBrush><SolidColorBrush Color="#00D9FF" Opacity="0.4"/></Border.BorderBrush>
-            <Border.BorderThickness>1</Border.BorderThickness>
-
-            <TabControl Background="Transparent" BorderThickness="0" Padding="0" Margin="5">
-                <TabControl.Resources>
-                    <Style TargetType="TabItem">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Foreground" Value="#AAAAAA"/>
-                        <Setter Property="Padding" Value="14,8"/>
-                        <Setter Property="FontSize" Value="11"/>
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="TabItem">
-                                    <Border Name="B" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="4,4,0,0" Margin="2,0" BorderBrush="Transparent" BorderThickness="0,0,0,2">
-                                        <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="B" Property="Background" Value="#1A1A1A"/>
-                                            <Setter TargetName="B" Property="BorderBrush" Value="#00D9FF"/>
-                                            <Setter Property="Foreground" Value="#FFFFFF"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="#00D9FF"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </TabControl.Resources>
-
-                <TabItem Header="INSTALL APPS">
-                    <Grid Margin="0,5,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Name="AppsPanel" Margin="15"/>
-                        </ScrollViewer>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15,10">
-                            <Button Name="InstallBtn" Content="INSTALL" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
-                            <Button Name="UninstallBtn" Content="UNINSTALL" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
-                            <Button Name="FixWingetBtn" Content="FIX WINGET" Style="{StaticResource ChromeBtn}"/>
-                        </StackPanel>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <!-- ROTATING HEXAGON -->
+                    <Grid Width="50" Height="50" VerticalAlignment="Center" Margin="0,0,15,0">
+                        <Polygon Stroke="#00D9FF" StrokeThickness="1.5" Fill="Transparent" Points="25,2 47,14 47,36 25,48 3,36 3,14" Opacity="0.7" RenderTransformOrigin="0.5,0.5">
+                            <Polygon.RenderTransform><RotateTransform/></Polygon.RenderTransform>
+                            <Polygon.Effect><DropShadowEffect Color="#00D9FF" BlurRadius="8" ShadowDepth="0" Opacity="0.6"/></Polygon.Effect>
+                            <Polygon.Triggers>
+                                <EventTrigger RoutedEvent="Loaded"><BeginStoryboard Storyboard="{StaticResource HexRotate}"/></EventTrigger>
+                            </Polygon.Triggers>
+                        </Polygon>
+                        <Polygon Stroke="#60CDFF" StrokeThickness="0.5" Fill="Transparent" Points="25,10 39,18 39,32 25,40 11,32 11,18" Opacity="0.4" RenderTransformOrigin="0.5,0.5">
+                            <Polygon.RenderTransform><RotateTransform Angle="180"/></Polygon.RenderTransform>
+                        </Polygon>
+                        <Ellipse Width="6" Height="6" Fill="#00D9FF" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Ellipse.Effect><DropShadowEffect Color="#00D9FF" BlurRadius="10" ShadowDepth="0"/></Ellipse.Effect>
+                            <Ellipse.Triggers>
+                                <EventTrigger RoutedEvent="Loaded"><BeginStoryboard Storyboard="{StaticResource PulseGlow}"/></EventTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
                     </Grid>
-                </TabItem>
 
-                <TabItem Header="TWEAKS">
-                    <Grid Margin="0,5,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Name="TweaksPanel" Margin="15"/>
-                        </ScrollViewer>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15,10">
-                            <Button Name="ApplyAllSafeBtn" Content="APPLY ALL SAFE" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
-                            <Button Name="RevertAllBtn" Content="REVERT ALL" Style="{StaticResource ChromeBtn}"/>
-                        </StackPanel>
-                    </Grid>
-                </TabItem>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="SANJULA.OS" FontSize="30" FontWeight="Light" Foreground="{StaticResource ChromeBrush}" Margin="0,0,0,-4">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#00D9FF" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <TextBlock Name="GreetingText" Text="" FontSize="12" Foreground="#00D9FF" Margin="3,0,0,0" FontStyle="Italic" FontFamily="Consolas">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="#00D9FF" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
 
-                <TabItem Header="MONITOR">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <StackPanel Margin="20">
-                            <TextBlock Text="LIVE SYSTEM STATS" Foreground="#00D9FF" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
-                            <TextBlock Name="CpuLabel" Foreground="#E8E8E8" FontSize="13" Margin="0,5,0,3"/>
-                            <ProgressBar Name="CpuBar" Height="14" Maximum="100" Foreground="#00D9FF" Background="#22FFFFFF" BorderThickness="0"/>
-                            <TextBlock Name="RamLabel" Foreground="#E8E8E8" FontSize="13" Margin="0,12,0,3"/>
-                            <ProgressBar Name="RamBar" Height="14" Maximum="100" Foreground="#60CDFF" Background="#22FFFFFF" BorderThickness="0"/>
-                            <TextBlock Name="DiskLabel" Foreground="#E8E8E8" FontSize="13" Margin="0,12,0,3"/>
-                            <ProgressBar Name="DiskBar" Height="14" Maximum="100" Foreground="#A0A0A0" Background="#22FFFFFF" BorderThickness="0"/>
-                            <TextBlock Text="NETWORK" Foreground="#00D9FF" FontSize="14" FontWeight="Bold" Margin="0,20,0,8"/>
-                            <Border Background="#33000000" CornerRadius="4">
-                                <TextBox Name="NetworkInfo" Background="Transparent" Foreground="#E8E8E8" FontFamily="Consolas" FontSize="11" BorderThickness="0" IsReadOnly="True" Padding="10" TextWrapping="Wrap" Text="Loading..."/>
-                            </Border>
-                            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
-                                <Button Name="RefreshStatsBtn" Content="REFRESH" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
-                                <Button Name="SpeedTestBtn" Content="PING TEST" Style="{StaticResource ChromeBtn}"/>
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right">
+                    <TextBlock Name="ClockText" FontSize="28" FontWeight="Light" Foreground="{StaticResource ChromeBrush}" TextAlignment="Right" FontFamily="Segoe UI Light">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="White" BlurRadius="20" ShadowDepth="0" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock Name="DateText" FontSize="11" Foreground="#999999" TextAlignment="Right" Margin="0,2,2,0"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- ANIMATED ACCENT LINE with SCANNING SWEEP -->
+            <Grid Grid.Row="1" Margin="20,0,20,5" Height="2" ClipToBounds="True">
+                <Rectangle Height="1" VerticalAlignment="Center" Fill="{StaticResource JarvisAccent}">
+                    <Rectangle.Effect>
+                        <DropShadowEffect Color="#00D9FF" BlurRadius="8" ShadowDepth="0" Opacity="0.7"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle Width="200" Height="2" VerticalAlignment="Center" HorizontalAlignment="Left" Fill="White" Opacity="0.7">
+                    <Rectangle.RenderTransform><TranslateTransform X="-200"/></Rectangle.RenderTransform>
+                    <Rectangle.Effect>
+                        <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="1"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Triggers>
+                        <EventTrigger RoutedEvent="Loaded"><BeginStoryboard Storyboard="{StaticResource ScanSweep}"/></EventTrigger>
+                    </Rectangle.Triggers>
+                </Rectangle>
+            </Grid>
+
+            <Border Grid.Row="2" Margin="15,5,15,5" CornerRadius="8" HorizontalAlignment="Left" Width="600">
+                <Border.Background><SolidColorBrush Color="#000000" Opacity="0.6"/></Border.Background>
+                <Border.BorderBrush><SolidColorBrush Color="#00D9FF" Opacity="0.4"/></Border.BorderBrush>
+                <Border.BorderThickness>1</Border.BorderThickness>
+
+                <TabControl Background="Transparent" BorderThickness="0" Padding="0" Margin="5">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#AAAAAA"/>
+                            <Setter Property="Padding" Value="14,8"/>
+                            <Setter Property="FontSize" Value="11"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="B" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="4,4,0,0" Margin="2,0" BorderBrush="Transparent" BorderThickness="0,0,0,2">
+                                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="B" Property="Background" Value="#1A1A1A"/>
+                                                <Setter TargetName="B" Property="BorderBrush" Value="#00D9FF"/>
+                                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="#00D9FF"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+
+                    <TabItem Header="INSTALL APPS">
+                        <Grid Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Name="AppsPanel" Margin="15"/>
+                            </ScrollViewer>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15,10">
+                                <Button Name="InstallBtn" Content="INSTALL" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
+                                <Button Name="UninstallBtn" Content="UNINSTALL" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
+                                <Button Name="FixWingetBtn" Content="FIX WINGET" Style="{StaticResource ChromeBtn}"/>
                             </StackPanel>
-                        </StackPanel>
-                    </ScrollViewer>
-                </TabItem>
+                        </Grid>
+                    </TabItem>
 
-                <TabItem Header="TOOLS">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <StackPanel Name="CustomPanel" Margin="8"/>
-                    </ScrollViewer>
-                </TabItem>
-            </TabControl>
-        </Border>
+                    <TabItem Header="TWEAKS">
+                        <Grid Margin="0,5,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Name="TweaksPanel" Margin="15"/>
+                            </ScrollViewer>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="15,10">
+                                <Button Name="ApplyAllSafeBtn" Content="APPLY ALL SAFE" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
+                                <Button Name="RevertAllBtn" Content="REVERT ALL" Style="{StaticResource ChromeBtn}"/>
+                            </StackPanel>
+                        </Grid>
+                    </TabItem>
 
-        <Border Grid.Row="3" Margin="15,5,15,15" CornerRadius="8" HorizontalAlignment="Left" Width="600">
-            <Border.Background><SolidColorBrush Color="#000000" Opacity="0.75"/></Border.Background>
-            <Border.BorderBrush><SolidColorBrush Color="#00D9FF" Opacity="0.4"/></Border.BorderBrush>
-            <Border.BorderThickness>1</Border.BorderThickness>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <TextBox Name="LogBox" Background="Transparent" Foreground="#00D9FF" FontFamily="Consolas" FontSize="11" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" Padding="12" Text="// SANJULA.OS ONLINE"/>
-            </ScrollViewer>
-        </Border>
+                    <TabItem Header="MONITOR">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="20">
+                                <TextBlock Text="LIVE SYSTEM STATS" Foreground="#00D9FF" FontSize="14" FontWeight="Bold" Margin="0,0,0,15"/>
+                                <TextBlock Name="CpuLabel" Foreground="#E8E8E8" FontSize="13" Margin="0,5,0,3"/>
+                                <ProgressBar Name="CpuBar" Height="14" Maximum="100" Foreground="#00D9FF" Background="#22FFFFFF" BorderThickness="0"/>
+                                <TextBlock Name="RamLabel" Foreground="#E8E8E8" FontSize="13" Margin="0,12,0,3"/>
+                                <ProgressBar Name="RamBar" Height="14" Maximum="100" Foreground="#60CDFF" Background="#22FFFFFF" BorderThickness="0"/>
+                                <TextBlock Name="DiskLabel" Foreground="#E8E8E8" FontSize="13" Margin="0,12,0,3"/>
+                                <ProgressBar Name="DiskBar" Height="14" Maximum="100" Foreground="#A0A0A0" Background="#22FFFFFF" BorderThickness="0"/>
+                                <TextBlock Text="NETWORK" Foreground="#00D9FF" FontSize="14" FontWeight="Bold" Margin="0,20,0,8"/>
+                                <Border Background="#33000000" CornerRadius="4">
+                                    <TextBox Name="NetworkInfo" Background="Transparent" Foreground="#E8E8E8" FontFamily="Consolas" FontSize="11" BorderThickness="0" IsReadOnly="True" Padding="10" TextWrapping="Wrap" Text="Loading..."/>
+                                </Border>
+                                <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                                    <Button Name="RefreshStatsBtn" Content="REFRESH" Style="{StaticResource ChromeBtn}" Margin="0,0,8,0"/>
+                                    <Button Name="SpeedTestBtn" Content="PING TEST" Style="{StaticResource ChromeBtn}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="TOOLS">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Name="CustomPanel" Margin="8"/>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </Border>
+
+            <Border Grid.Row="3" Margin="15,5,15,15" CornerRadius="8" HorizontalAlignment="Left" Width="600">
+                <Border.Background><SolidColorBrush Color="#000000" Opacity="0.75"/></Border.Background>
+                <Border.BorderBrush><SolidColorBrush Color="#00D9FF" Opacity="0.4"/></Border.BorderBrush>
+                <Border.BorderThickness>1</Border.BorderThickness>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBox Name="LogBox" Background="Transparent" Foreground="#00D9FF" FontFamily="Consolas" FontSize="11" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" Padding="12" Text=""/>
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
 '@
@@ -369,8 +467,46 @@ $NetworkInfo      = $window.FindName("NetworkInfo")
 $RefreshStatsBtn  = $window.FindName("RefreshStatsBtn")
 $SpeedTestBtn     = $window.FindName("SpeedTestBtn")
 
-# Set greeting
-$GreetingText.Text = "$($env:USERNAME.ToUpper()) :: $(Get-Greeting)"
+# ANIMATION 6: TYPEWRITER EFFECT for greeting
+$fullGreeting = "$($env:USERNAME.ToUpper()) :: $(Get-Greeting)"
+$global:typeIndex = 0
+$typeTimer = New-Object System.Windows.Threading.DispatcherTimer
+$typeTimer.Interval = [TimeSpan]::FromMilliseconds(40)
+$typeTimer.Add_Tick({
+    if ($global:typeIndex -le $fullGreeting.Length) {
+        $GreetingText.Text = $fullGreeting.Substring(0, $global:typeIndex) + "_"
+        $global:typeIndex++
+    } else {
+        $GreetingText.Text = $fullGreeting
+        $typeTimer.Stop()
+    }
+})
+$typeTimer.Start()
+
+# ANIMATION 7: BOOT SEQUENCE in log
+$bootLines = @(
+    "// SANJULA.OS v1.1 INITIALIZING...",
+    "// LOADING TWEAK ENGINE........... [OK]",
+    "// LOADING APP CATALOG............ [OK]",
+    "// LOADING CUSTOM SCRIPTS......... [OK]",
+    "// SYSTEM MONITOR ONLINE.......... [OK]",
+    "// NETWORK STACK READY............ [OK]",
+    "// $($env:USERNAME.ToUpper()) AUTHENTICATED",
+    "// ALL SYSTEMS NOMINAL. STANDING BY."
+)
+$global:bootIndex = 0
+$bootTimer = New-Object System.Windows.Threading.DispatcherTimer
+$bootTimer.Interval = [TimeSpan]::FromMilliseconds(200)
+$bootTimer.Add_Tick({
+    if ($global:bootIndex -lt $bootLines.Count) {
+        if ($global:bootIndex -gt 0) { $LogBox.AppendText("`n") }
+        $LogBox.AppendText($bootLines[$global:bootIndex])
+        $global:bootIndex++
+    } else {
+        $bootTimer.Stop()
+    }
+})
+$bootTimer.Start()
 
 # Clock
 $timer = New-Object System.Windows.Threading.DispatcherTimer
@@ -383,7 +519,20 @@ $timer.Start()
 $ClockText.Text = Get-Date -Format "HH:mm:ss"
 $DateText.Text  = (Get-Date -Format "dddd, MMM dd yyyy").ToUpper()
 
-# System stats
+# ANIMATION 8: SMOOTH PROGRESS BAR ANIMATION (count up to value)
+function Set-ProgressBarSmooth {
+    param($bar, $targetValue)
+    $current = $bar.Value
+    $diff = $targetValue - $current
+    if ([math]::Abs($diff) -lt 0.5) { $bar.Value = $targetValue; return }
+    $anim = New-Object System.Windows.Media.Animation.DoubleAnimation
+    $anim.From = $current
+    $anim.To = $targetValue
+    $anim.Duration = [Windows.Duration]::new([TimeSpan]::FromMilliseconds(800))
+    $anim.EasingFunction = New-Object System.Windows.Media.Animation.CubicEase
+    $bar.BeginAnimation([System.Windows.Controls.ProgressBar]::ValueProperty, $anim)
+}
+
 function Update-SystemStats {
     try {
         $cpu = (Get-CimInstance Win32_Processor | Measure-Object -Property LoadPercentage -Average).Average
@@ -395,7 +544,9 @@ function Update-SystemStats {
         $diskTotal = [math]::Round($disk.Size / 1GB, 1)
         $diskUsed  = $diskTotal - [math]::Round($disk.FreeSpace / 1GB, 1)
         $diskPct   = [math]::Round(($diskUsed / $diskTotal) * 100, 1)
-        $CpuBar.Value = $cpu; $RamBar.Value = $ramPct; $DiskBar.Value = $diskPct
+        Set-ProgressBarSmooth -bar $CpuBar -targetValue $cpu
+        Set-ProgressBarSmooth -bar $RamBar -targetValue $ramPct
+        Set-ProgressBarSmooth -bar $DiskBar -targetValue $diskPct
         $CpuLabel.Text = "CPU  ::  $cpu %"
         $RamLabel.Text = "RAM  ::  $usedRam / $totalRam GB  ($ramPct %)"
         $DiskLabel.Text = "DISK ::  $diskUsed / $diskTotal GB  ($diskPct %)"
@@ -485,7 +636,7 @@ $UninstallBtn.Add_Click({
     $LogBox.AppendText("`n// Done")
 })
 
-# === TWEAKS WITH INDIVIDUAL APPLY/REVERT ===
+# Tweaks with individual toggles
 $tweakActionStyle = $window.FindResource("TweakActionBtn")
 $tweaks = Get-RemoteJson "config/tweaks.json"
 $global:AllTweakIds = @()
@@ -527,10 +678,8 @@ if ($tweaks) {
             $applyBtn.Add_Click({
                 param($s,$e)
                 $LogBox.AppendText("`n// APPLY $($s.Tag)")
-                try {
-                    $r = Invoke-Tweak -Name $s.Tag -Action Apply
-                    $LogBox.AppendText("  -> $r")
-                } catch { $LogBox.AppendText("  -> ERROR: $($_.Exception.Message)") }
+                try { $r = Invoke-Tweak -Name $s.Tag -Action Apply; $LogBox.AppendText("  -> $r") }
+                catch { $LogBox.AppendText("  -> ERROR: $($_.Exception.Message)") }
             }.GetNewClosure())
             [System.Windows.Controls.Grid]::SetColumn($applyBtn, 1)
             $row.Children.Add($applyBtn) | Out-Null
@@ -539,14 +688,12 @@ if ($tweaks) {
             $revertBtn.Content = "REVERT"
             $revertBtn.Style = $tweakActionStyle
             $revertBtn.Tag = $t.id
-            $revertBtn.ToolTip = "Restore default for: " + $t.name
+            $revertBtn.ToolTip = "Restore default: " + $t.name
             $revertBtn.Add_Click({
                 param($s,$e)
                 $LogBox.AppendText("`n// REVERT $($s.Tag)")
-                try {
-                    $r = Invoke-Tweak -Name $s.Tag -Action Revert
-                    $LogBox.AppendText("  -> $r")
-                } catch { $LogBox.AppendText("  -> ERROR: $($_.Exception.Message)") }
+                try { $r = Invoke-Tweak -Name $s.Tag -Action Revert; $LogBox.AppendText("  -> $r") }
+                catch { $LogBox.AppendText("  -> ERROR: $($_.Exception.Message)") }
             }.GetNewClosure())
             [System.Windows.Controls.Grid]::SetColumn($revertBtn, 2)
             $row.Children.Add($revertBtn) | Out-Null
@@ -560,23 +707,23 @@ $ApplyAllSafeBtn.Add_Click({
     if ([System.Windows.MessageBox]::Show("Apply ALL safe tweaks ($($global:AllTweakIds.Count) total)?", "Confirm", "YesNo", "Question") -ne "Yes") { return }
     $LogBox.AppendText("`n// APPLY ALL ($($global:AllTweakIds.Count) tweaks)...")
     foreach ($id in $global:AllTweakIds) {
-        try { $r = Invoke-Tweak -Name $id -Action Apply; $LogBox.AppendText("`n//   [OK] $id -> $r") }
+        try { $r = Invoke-Tweak -Name $id -Action Apply; $LogBox.AppendText("`n//   [OK] $id") }
         catch { $LogBox.AppendText("`n//   [ERR] $id") }
     }
     $LogBox.AppendText("`n// ALL DONE")
 })
 
 $RevertAllBtn.Add_Click({
-    if ([System.Windows.MessageBox]::Show("Revert ALL tweaks to Windows defaults?", "Confirm", "YesNo", "Question") -ne "Yes") { return }
-    $LogBox.AppendText("`n// REVERT ALL ($($global:AllTweakIds.Count) tweaks)...")
+    if ([System.Windows.MessageBox]::Show("Revert ALL tweaks?", "Confirm", "YesNo", "Question") -ne "Yes") { return }
+    $LogBox.AppendText("`n// REVERT ALL...")
     foreach ($id in $global:AllTweakIds) {
-        try { $r = Invoke-Tweak -Name $id -Action Revert; $LogBox.AppendText("`n//   [OK] $id -> $r") }
+        try { $r = Invoke-Tweak -Name $id -Action Revert; $LogBox.AppendText("`n//   [OK] $id") }
         catch { $LogBox.AppendText("`n//   [ERR] $id") }
     }
     $LogBox.AppendText("`n// ALL REVERTED")
 })
 
-# === TOOLS / BRICKS ===
+# Tools / bricks
 $brickStyle = $window.FindResource("BrickBtn")
 $riskyStyle = $window.FindResource("RiskyBrickBtn")
 $customs = Get-RemoteJson "config/custom.json"
@@ -616,5 +763,10 @@ if ($customs) {
     }
 }
 
-$window.Add_Closed({ $timer.Stop(); $statsTimer.Stop() })
+$window.Add_Closed({
+    $timer.Stop()
+    $statsTimer.Stop()
+    if ($typeTimer) { $typeTimer.Stop() }
+    if ($bootTimer) { $bootTimer.Stop() }
+})
 $window.ShowDialog() | Out-Null
